@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Amicable Numbers</title>
+    </head>
+    <body>
+        <script>
+            function displayNums(){
+                document.getElementById("displayNums").innerHTML = "Number 1: " + document.getElementById("num1").value +
+                "<br/>Number 2: " + document.getElementById("num2").value
+
+            }
+            function isFactor(n, factor){
+                return (n % factor == 0)
+            }
+
+            function showArray(arr){
+                var allElems = "["
+                var arrLength = arr.length
+                for (var i = 0; i < arrLength; i++){
+                    if (i < arrLength - 1){
+                        allElems += arr[i].toString() + ", "
+                    }
+                    else {
+                        allElems += arr[i].toString() + "]"
+                    }
+                }
+                document.getElementById("numArr").innerHTML += allElems + "<br/>"
+            }
+
+            function getFactors(n){
+                var factors = []
+                if (n == 1){
+                    return []
+                }
+                for (var i = 1; i < Math.floor(Math.sqrt(n)); i++){
+                    if (isFactor(n, i)){
+                        factors.push(i)
+                        if (n / i != i && n / i != n){
+                            factors.push(n / i)
+                        }
+                    }
+                }
+                
+                factors.sort()
+                return factors
+            }
+
+            function isAmicable(){
+                document.getElementById("numArr").innerHTML = ""
+
+                displayNums()
+
+                var num1 = document.getElementById("num1").value
+                var num2 = document.getElementById("num2").value
+
+                var arr1 = getFactors(num1)
+                var sum1 = arr1.reduce(function(a, b){
+                    return a + b}, 0)
+
+                if (sum1 == num2){
+                    var arr2 = getFactors(num2)
+                    var sum2 = arr2.reduce(function(a, b){
+                    return a + b}, 0)
+
+                    if (sum2 == num1){
+                        document.getElementById("result").innerHTML = num1 + " and " + num2 + " are amicable!<br/>"
+                        showArray(arr1)
+                        showArray(arr2)
+                        return
+        
+                    }
+                }
+                
+                document.getElementById("result").innerHTML = num1 + " and " + num2 + " are not amicable."
+            }
+        </script>
+        <form>
+            <label for="num1">First Number:</label><br>
+            <input type="text" id="num1"><br/>
+            <label for="num2">Second Number:</label><br>
+            <input type="text" id="num2"><br/><br/>
+            <input type="button" value="Check Amicability" onclick="isAmicable()">
+            <div>&nbsp</div>
+        </form>
+        <div id="displayNums"></div>
+        <div>&nbsp</div>
+        <div id="result"></div>
+        <div>&nbsp</div>
+        <div id="numArr"></div>
+    </body>
+</html>
